@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Ahmed Galal —  Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --netflix-red:#e50914;
+    --neon-pink:#ff2bdc;
+    --neon-cyan:#00f0ff;
+    --bg:#0b0b0b;
+    --card:#141414;
+    --muted:#9aa0a6;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    color:#fff;
+    background: var(--bg);
+    overflow-x:hidden;
+    cursor:url('https://upload.wikimedia.org/wikipedia/commons/6/6b/Clapperboard_icon.png') 8 0, auto;
+  }
+
+  /* Retro neon blurred backdrop */
+  .bg-blur::before{
+    content:"";
+    position:fixed; inset:0;
+    background:
+      radial-gradient(60vw 60vw at 10% 20%, rgba(229,9,20,.28), transparent 60%),
+      radial-gradient(50vw 50vw at 90% 10%, rgba(0,240,255,.22), transparent 55%),
+      radial-gradient(45vw 45vw at 30% 85%, rgba(255,43,220,.18), transparent 60%),
+      url('https://images.unsplash.com/photo-1512428559087-560fa5ceab42?q=80&w=1600&auto=format&fit=crop') center/cover no-repeat;
+    filter: blur(14px) saturate(120%) brightness(0.9);
+    transform: scale(1.1);
+    z-index:-1;
+  }
+
+  header{
+    position:sticky; top:0; z-index:10;
+    background:linear-gradient(to bottom, rgba(0,0,0,.8), rgba(0,0,0,.4), rgba(0,0,0,0));
+    backdrop-filter:saturate(120%) blur(6px);
+    padding:16px 20px;
+    display:flex; align-items:center; justify-content:space-between;
+    border-bottom:1px solid rgba(255,255,255,.06);
+  }
+  .brand{
+    display:flex; align-items:center; gap:12px; font-weight:800; letter-spacing:.3px;
+  }
+  .brand .dot{width:12px; height:12px; background:var(--netflix-red); border-radius:2px; box-shadow:0 0 12px var(--netflix-red)}
+  .brand span{font-size:18px}
+  .lang-toggle{
+    display:flex; gap:8px;
+  }
+  .btn{
+    background:#222; color:#fff; border:1px solid rgba(255,255,255,.12);
+    padding:10px 14px; border-radius:10px; font-weight:600; cursor:pointer;
+    transition:transform .15s ease, box-shadow .2s ease, border-color .2s ease;
+  }
+  .btn:hover{ transform: translateY(-2px); box-shadow:0 0 0 3px rgba(229,9,20,.2) inset }
+  .btn.active{ border-color:var(--netflix-red); box-shadow:0 0 12px rgba(229,9,20,.35) }
+
+  /* Hero intro */
+  .hero{ padding:24px 20px 8px }
+  .intro-wrap{
+    width:min(1200px, 96vw); margin:0 auto; aspect-ratio:16/9; position:relative;
+    border-radius:16px; overflow:hidden; border:1px solid rgba(255,255,255,.12);
+    box-shadow:0 12px 50px rgba(0,0,0,.6), 0 0 22px rgba(255,43,220,.15);
+    animation: pop .6s ease both;
+  }
+  .intro-wrap::after{
+    content:""; position:absolute; inset:-2px; border-radius:18px; pointer-events:none;
+    background: conic-gradient(from 180deg, transparent 0 30%, rgba(255,43,220,.65), transparent 35% 65%, rgba(0,240,255,.55), transparent 70% 100%);
+    filter: blur(14px); opacity:.45;
+  }
+  .intro iframe{ position:absolute; inset:0; width:100%; height:100%; border:0 }
+
+  /* Client area */
+  .section{ padding:24px 20px }
+  .section h2{
+    width:min(1200px,96vw); margin:0 auto 14px; font-size:22px; font-weight:800; letter-spacing:.2px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .section h2 .bar{width:16px;height:16px;background:var(--neon-cyan); border-radius:3px; box-shadow:0 0 12px var(--neon-cyan)}
+  .client-bar{
+    width:min(1200px,96vw); margin:12px auto 0; display:flex; align-items:center; gap:14px;
+  }
+  .arrow{
+    width:44px; height:44px; border-radius:50%;
+    display:grid; place-items:center; font-size:20px; user-select:none;
+    background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.15); cursor:pointer;
+    transition:transform .15s ease, background .2s ease, box-shadow .2s ease;
+  }
+  .arrow:hover{ transform:scale(1.06); background:rgba(229,9,20,.2); box-shadow:0 0 18px rgba(229,9,20,.35) }
+  .client-card{
+    flex:1; display:flex; align-items:center; gap:16px; padding:14px 16px; border-radius:14px;
+    background: linear-gradient(180deg, rgba(20,20,20,.9), rgba(14,14,14,.85));
+    border:1px solid rgba(255,255,255,.1);
+    box-shadow:0 10px 30px rgba(0,0,0,.45);
+    animation: fade .35s ease both;
+  }
+  .client-logo{
+    width:64px;height:64px;border-radius:12px;object-fit:cover;border:1px solid rgba(255,255,255,.18);
+    box-shadow:0 0 0 3px rgba(255,255,255,.03) inset, 0 0 18px rgba(0,240,255,.18);
+  }
+  .client-meta{ display:flex; flex-direction:column; gap:4px }
+  .client-name{ font-weight:800; font-size:18px }
+  .client-lang{ color:var(--muted); font-size:13px }
+
+  /* Videos grid (Netflix-style) */
+  .grid{
+    width:min(1200px,96vw); margin:14px auto 0;
+    display:grid; gap:14px;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  }
+  .video-card{
+    position:relative; border-radius:14px; overflow:hidden; background:var(--card);
+    border:1px solid rgba(255,255,255,.08);
+    transition: transform .18s ease, box-shadow .2s ease, border-color .2s;
+  }
+  .video-card:hover{
+    transform: translateY(-4px) scale(1.01);
+    border-color: rgba(229,9,20,.6);
+    box-shadow: 0 10px 30px rgba(0,0,0,.6), 0 0 22px rgba(229,9,20,.35);
+  }
+  .video-16x9{aspect-ratio:16/9}
+  .video-9x16{aspect-ratio:9/16}
+  .video-card iframe{width:100%; height:100%; border:0}
+
+  /* Shorts label (only for Arabic when visible) */
+  .badge{
+    display:inline-flex; align-items:center; gap:6px; font-size:12px;
+    background: rgba(255,43,220,.18); border:1px solid rgba(255,43,220,.45);
+    color:#fff; padding:6px 10px; border-radius:999px; margin-left:10px;
+    box-shadow:0 0 12px rgba(255,43,220,.35) inset;
+  }
+
+  footer{ color:#bfc5cc; text-align:center; padding:42px 12px }
+
+  @keyframes pop{ from{transform:scale(.98); opacity:0} to{transform:scale(1); opacity:1}}
+  @keyframes fade{ from{opacity:0; transform:translateY(6px)} to{opacity:1; transform:none}}
+</style>
+</head>
+<body class="bg-blur">
+
+<header>
+  <div class="brand"><span class="dot"></span><span>Ahmed Galal — Portfolio</span></div>
+  <div class="lang-toggle">
+    <button class="btn active" id="btn-ar" onclick="setLang('ar')">Arabic Clients</button>
+    <button class="btn" id="btn-en" onclick="setLang('en')">English Clients</button>
+  </div>
+</header>
+
+<!-- HERO INTRO -->
+<section class="hero">
+  <div class="intro-wrap intro">
+    <iframe src="https://www.youtube.com/embed/iVwCs5QJc80"
+            title="Intro"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen></iframe>
+  </div>
+</section>
+
+<!-- CLIENTS -->
+<section class="section">
+  <h2><span class="bar"></span><span id="sectionTitle">Arabic Clients</span></h2>
+
+  <div class="client-bar">
+    <div class="arrow" onclick="prevClient()">&#10094;</div>
+    <div class="client-card">
+      <img id="clientLogo" class="client-logo" alt="Client Logo"/>
+      <div class="client-meta">
+        <div id="clientName" class="client-name">—</div>
+        <div id="clientLang" class="client-lang">—</div>
+      </div>
+    </div>
+    <div class="arrow" onclick="nextClient()">&#10095;</div>
+  </div>
+
+  <div id="videoGrid" class="grid" aria-live="polite"></div>
+
+  <!-- Shorts (only shown for Arabic) -->
+  <div id="shortsBlock" class="section" style="padding:18px 0 0;">
+    <h2 style="margin-top:10px"><span class="bar" style="background:var(--neon-pink)"></span>Arabic Shorts <span class="badge">YouTube Shorts</span></h2>
+    <div id="shortsGrid" class="grid"></div>
+  </div>
+</section>
+
+<footer>© 2025 Ahmed Galal — All rights reserved.</footer>
+
+<script>
+/* ========= DATA ========= */
+const DATA = {
+  ar: [
+    {
+      name: "Cartoon Lab",
+      logo: "https://ui-avatars.com/api/?name=Cartoon+Lab&background=111&color=fff&rounded=true&bold=true",
+      videos: [
+        "nku64o4mYts","IVLt5Mns9pk","O_o8khOICD0","EO3o_KnIgqI","G7g9vAW_ZRs"
+      ]
+    },
+    {
+      name: "Azzam Senpai",
+      logo: "https://ui-avatars.com/api/?name=Azzam+Senpai&background=111&color=fff&rounded=true&bold=true",
+      videos: ["2QlztqMG_vE"]
+    },
+    {
+      name: "Gaming Center",
+      logo: "https://ui-avatars.com/api/?name=Gaming+Center&background=111&color=fff&rounded=true&bold=true",
+      videos: ["_vLd8uS09ds"]
+    },
+    {
+      name: "Rayan Shadidi",
+      logo: "https://ui-avatars.com/api/?name=Rayan+Shadidi&background=111&color=fff&rounded=true&bold=true",
+      videos: ["4BcDnE10DbA"]
+    },
+    {
+      name: "Animates",
+      logo: "https://ui-avatars.com/api/?name=Animates&background=111&color=fff&rounded=true&bold=true",
+      videos: ["TXVEu8ossao"] // add when available
+    },
+    {
+      name: "Sob",
+      logo: "https://ui-avatars.com/api/?name=Soob&background=111&color=fff&rounded=true&bold=true",
+      videos: ["HPGMYxbvYTg"]
+    }
+  ],
+  arShorts: [
+    { title: "Majd Al Zaqout", id: "EdqoeT1G6UI" },
+    { title: "Gaming Center", id: "TCj_pH8r04w" },
+  ],
+  en: [
+    {
+      name: "Lost Signal",
+      logo: "https://ui-avatars.com/api/?name=Lost+Signal&background=111&color=fff&rounded=true&bold=true",
+      videos: ["hxbMHvpm3Lc","i1rFIV0O3tE"] 
+    },
+    {
+      name: "Ooh Explained",
+      logo: "https://ui.avatars.com/api/?name=Ooh+Explained&background=111&color=fff&rounded=true&bold=true",
+      videos : ["https://drive.google.com/file/d/15uPLq5NZM1OLXnhMS66DqAR4mseLck-y/preview"]
+    }
+  ]
+};
+
+/* ========= STATE ========= */
+let currentLang = 'ar';
+let currentIndex = 0;
+
+/* ========= HELPERS ========= */
+function setLang(lang){
+  currentLang = lang;
+  currentIndex = 0;
+  document.getElementById('btn-ar').classList.toggle('active', lang==='ar');
+  document.getElementById('btn-en').classList.toggle('active', lang==='en');
+  document.getElementById('sectionTitle').textContent = (lang==='ar') ? 'Arabic Clients' : 'English Clients';
+  document.getElementById('shortsBlock').style.display = (lang==='ar') ? 'block' : 'none';
+  renderClient();
+  renderShorts();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function prevClient(){
+  const list = DATA[currentLang];
+  if(!list || !list.length) return;
+  currentIndex = (currentIndex - 1 + list.length) % list.length;
+  renderClient();
+}
+
+function nextClient(){
+  const list = DATA[currentLang];
+  if(!list || !list.length) return;
+  currentIndex = (currentIndex + 1) % list.length;
+  renderClient();
+}
+
+function ytEmbed(id){
+  if (id.includes("drive.google.com")) {
+    // إذا كان رابط جوجل درايف كامل
+    if (id.includes("/view")) {
+      return id.replace("/view", "/preview");
+    }
+    return id; // إذا كان بالفعل رابط /preview
+  }
+  return `https://www.youtube.com/embed/${id}`;
+}
+
+/* ========= RENDER ========= */
+function renderClient(){
+  const list = DATA[currentLang] || [];
+  const client = list[currentIndex] || {name:'No client', logo:'', videos:[]};
+
+  document.getElementById('clientLogo').src = client.logo || '';
+  document.getElementById('clientName').textContent = client.name;
+  document.getElementById('clientLang').textContent = (currentLang==='ar' ? 'Arabic Channel' : 'English Channel');
+
+  const grid = document.getElementById('videoGrid');
+  grid.innerHTML = '';
+
+  if(!client.videos.length){
+    grid.innerHTML = `<div style="opacity:.8; padding:18px; border:1px dashed rgba(255,255,255,.18); border-radius:12px; text-align:center">
+      No videos added yet. Send me the links to embed them here.
+    </div>`;
+    return;
+  }
+
+  client.videos.forEach(id=>{
+    const card = document.createElement('div');
+    card.className = 'video-card video-16x9';
+    card.innerHTML = `<iframe src="${ytEmbed(id)}"
+                             title="YouTube video"
+                             loading="lazy"
+                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                             allowfullscreen></iframe>`;
+    grid.appendChild(card);
+  });
+}
+
+function renderShorts(){
+  const wrap = document.getElementById('shortsGrid');
+  if(currentLang !== 'ar'){ wrap.innerHTML=''; return; }
+  wrap.innerHTML = '';
+  (DATA.arShorts || []).forEach(s=>{
+    const card = document.createElement('div');
+    card.className = 'video-card video-9x16';
+    card.title = s.title;
+    card.innerHTML = `<iframe src="${ytEmbed(s.id)}"
+                             title="${s.title}"
+                             loading="lazy"
+                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                             allowfullscreen></iframe>`;
+    wrap.appendChild(card);
+  });
+}
+
+/* ========= INIT ========= */
+setLang('ar');
+</script>
+</body>
+</html>
